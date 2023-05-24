@@ -1,6 +1,6 @@
 use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
 
-#[get("/{path}")]
+#[get("/{path:.**}")]
 async fn hello(path: web::Path<String>) -> impl Responder {
     HttpResponse::Ok().body(path.to_string())
 }
