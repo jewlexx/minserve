@@ -1,8 +1,9 @@
-use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
+use actix_files::NamedFile;
+use actix_web::{get, web, App, HttpServer, Responder};
 
 #[get("/{path:.**}")]
 async fn hello(path: web::Path<String>) -> impl Responder {
-    HttpResponse::Ok().body(path.to_string())
+    NamedFile::open_async(path.to_string()).await
 }
 
 #[actix_web::main]
