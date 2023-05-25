@@ -1,14 +1,9 @@
-use actix_files::NamedFile;
-use actix_web::{get, web, App, HttpServer, Responder};
-
-#[get("/{path:.**}")]
-async fn hello(path: web::Path<String>) -> impl Responder {
-    NamedFile::open_async(path.to_string()).await
-}
+use actix_files::Files;
+use actix_web::{App, HttpServer};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(hello))
+    HttpServer::new(|| App::new().service(Files::new("/", "./").index_file("index.html")))
         .bind(("127.0.0.1", 8080))?
         .run()
         .await
